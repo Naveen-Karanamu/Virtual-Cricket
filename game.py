@@ -1,4 +1,5 @@
 # Modules
+from asyncore import compact_traceback
 import math 
 import random
 
@@ -15,11 +16,14 @@ def play_check():
     if(play=="BAT"):
         print(f"Go {name} break the bats 😉")
         print("Remember to Enter the runs from 0 to 6")
-        out=0
-        sum=0
-        turn=0
-        while(out==0):
-            user_runs=int(input(f"Hit the {turn +1} ball : "))
+        user_out=0
+        comp_out=0
+        user_sum=0
+        comp_sum=0
+        user_turn=0
+        comp_turn=0
+        while(user_out==0):
+            user_runs=int(input(f"Hit the {user_turn +1} ball : "))
             comp_runs=random.randint(0,6)
             print(f"Jarwis bowled for {comp_runs} runs")
             if 0>user_runs or user_runs>6:
@@ -27,17 +31,49 @@ def play_check():
                 continue
             
             elif user_runs==0:
-                sum+=comp_runs
+                user_sum+=comp_runs
                 
             elif(user_runs==comp_runs):
-                print(f"{name} you are out, Better luck next time 😝")
-                out=1
+                print(f"{name} you got bowled by Jarwis")
+                user_out=1
+                user_turn+=1
             
             else:
-                sum+=user_runs
-                turn+=1
+                user_sum+=user_runs
+                user_turn+=1
                 
-        print(sum)
+        print(f"Total score of {name} is {user_sum} 🎉")
+        print("Now it's Jarwis turn to Bat!")
+        
+        while(comp_out==0):
+            comp_runs=random.randint(0,6)
+            user_runs=int(input(f"Bowl for the {comp_turn + 1} ball "))
+            print(f"Jarwis scored {comp_runs}  ")
+            if(user_runs<0 or user_runs > 6):
+                print("Please ball from 0 to 6 only!")
+                continue
+            elif(comp_turn==user_runs):
+                print("You Bowled Jarwis 🎉 ")
+                comp_out=1
+                
+            elif(comp_runs==0):
+                comp_sum+=user_runs
+                comp_turn+=1
+                
+            else:
+                comp_sum+=comp_runs
+                comp_turn+=1
+                
+        print(f"Total score of Jarwis is : {comp_sum} ")
+        
+        if(comp_sum==user_sum):
+            print("The match got draw! 😑")
+            
+        elif(comp_sum>user_sum):
+            print(f"{name} you lost the game! 🤣 Better luck next time 😌")
+            
+        else:
+            print(f"{name} You won the match! cheers 🍻")
 
     elif(play=='BALL'):
         print(f"Go {name} throw the Balls")
@@ -56,7 +92,11 @@ def toss_check():
         total_choice=user_choice+comp_choice
         if(total_choice%2==0 and toss=='E'):
             print(f"Hurray {name}! You won the toss 🎉 and {comp_name} lost the toss")
-            play_check()           
+            play_check()     
+            
+        elif(total_choice%2!=0 and toss=='O'):
+            print(f"Hurray {name}! You won the toss 🎉 and {comp_name} lost the toss")
+            play_check()                   
                     
         else:
             print(f"Sorry {name}! You lost the toss 🙄 and {comp_name} won the toss")
