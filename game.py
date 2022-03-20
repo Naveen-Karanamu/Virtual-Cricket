@@ -8,6 +8,9 @@ name = input("Hello gamer! Please Enter Your Name 😉 : ")
 comp_name="Jarwis"
 print(f"Hello {name}! Welcome to the Game of Virtual Cricket 🎉🎉")
 
+user2_count=0
+user1_count=0
+
 ##Functios:
 
 # User's turn to bat first
@@ -68,7 +71,7 @@ def comp_play_second(comp_out, comp_sum, comp_turn, user_sum):
     while(comp_out==0):
         comp_runs=random.randint(0,6)
         user_runs=int(input(f"Bowl for the {comp_turn + 1} ball "))
-        print(f"Jarwis scored {comp_runs}  ")
+        print(f"Jarwis took {comp_runs} runs  ")
         if(user_runs<0 or user_runs > 6):
             print("Please ball from 0 to 6 only!")
             continue
@@ -96,7 +99,7 @@ def comp_play_first(comp_out, comp_sum, comp_turn):
     while(comp_out==0):
         comp_runs=random.randint(0,6)
         user_runs=int(input(f"Bowl for the {comp_turn + 1} ball "))
-        print(f"Jarwis scored {comp_runs}  ")
+        print(f"Jarwis took {comp_runs} runs ")
         if(user_runs<0 or user_runs > 6):
             print("Please ball from 0 to 6 only!")
             continue
@@ -123,13 +126,16 @@ def winner(comp_sum, user_sum):
         
     elif(comp_sum>user_sum):
         print(f"{name} you lost the game! 🤣 Better luck next time 😌")
+        global user2_count
+        user2_count+=1
         
     else:
         print(f"Hurrayy! {name} You won the match! cheers 🍻🔥")
-        
+        global user1_count
+        user1_count+=1
         
 #Batting or Bowling
-def play_order(play):
+def play_order1(play):
     if(play=="BAT"):
         print("Remember to Enter the runs from 0 to 6")
         user_out=0
@@ -167,18 +173,60 @@ def play_order(play):
     else:
         print("Invalid input for playing! ⚠️ Please try again!")
         play_check()
+        
+def play_order2(play):
+    if(play=="BAT"):
+        print("Remember to Enter the runs from 0 to 6")
+        user_out=0
+        comp_out=0
+        user_sum=0
+        comp_sum=0
+        user_turn=0
+        comp_turn=0
+        
+        comp_sum=comp_play_first(comp_out, comp_sum, comp_turn)
+        
+        print(f"Now it's your turn to Bat {name}!")
+        
+        user_sum=user_play_second(user_out, user_sum, user_turn, comp_sum)
+        
+        winner(comp_sum, user_sum)
+        
+        
+
+    elif(play=='BALL'):
+        print("Remember to Enter the runs from 0 to 6")
+        user_out=0
+        comp_out=0
+        user_sum=0
+        comp_sum=0
+        user_turn=0
+        comp_turn=0
+        
+        user_sum=user_play_first(user_out, user_sum, user_turn)
+        
+        print("Now it's Jarwis turn to Bat!")
+        
+        comp_sum=comp_play_second(comp_out, comp_sum, comp_turn, user_sum)
+        
+        winner(comp_sum, user_sum)
+        
+        
+    else:
+        print("Invalid input for playing! ⚠️ Please try again!")
+        play_check()
 
 # Fuction to check the bat and ball
 def play_check(user_chnace,comp_chance):
     if(user_chnace==1):
         play=input("Please Enter BAT for Batting 1st or BALL for Bowling 1st : ").upper()
         print(f"{name} choose to {play}")
-        play_order(play)
+        play_order1(play)
         
     else:
         play=random.choice(["BAT","BALL"])
         print(f"Jarwis choose to {play}")
-        play_order(play)
+        play_order2(play)
         
 
 # Function to chech the toss
@@ -215,12 +263,17 @@ def no_of_users():
     if users == 1:
         times = int(input("How many times you want to play this game? 🤔 : "))
         while times > 0:
-            toss_check()          
-                
+            toss_check()   
             times-=1
+        if(user1_count>user2_count):
+            print(f"{name} Won the grand finale 🔥🍻🎉")
+        elif(user2_count>user1_count):
+            print("Jarwis Won the grand finale 🔥🍻🎉")
+        else:
+            print("The Grand finale ended with a draw 😑")
 
     elif users == 2:
-        print(2)
+        print("More than one person can't play this game as there is a chance of cheating")
 
     else:
         print("Invalid input for number of users ⚠️, Please try again! 😑")
