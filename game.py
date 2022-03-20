@@ -36,7 +36,7 @@ def user_play_first(user_out, user_sum, user_turn):
     return user_sum
 
 # User's turn to bat second
-def user_play_second(user_out, user_sum, user_turn):
+def user_play_second(user_out, user_sum, user_turn, comp_sum):
     while(user_out==0):
         user_runs=int(input(f"Hit the {user_turn +1} ball : "))
         comp_runs=random.randint(0,6)
@@ -44,6 +44,9 @@ def user_play_second(user_out, user_sum, user_turn):
         if 0>user_runs or user_runs>6:
             print("Please score runs from 0 to 6 only")
             continue
+        
+        elif(user_runs>comp_sum+1):
+            user_out=1
         
         elif user_runs==0:
             user_sum+=comp_runs
@@ -89,7 +92,7 @@ def comp_play_second(comp_out, comp_sum, comp_turn, user_sum):
     return comp_sum
 
 # Computer's turn to bat first
-def comp_play_first(comp_out, comp_sum, comp_turn, user_sum):
+def comp_play_first(comp_out, comp_sum, comp_turn):
     while(comp_out==0):
         comp_runs=random.randint(0,6)
         user_runs=int(input(f"Bowl for the {comp_turn + 1} ball "))
@@ -97,9 +100,6 @@ def comp_play_first(comp_out, comp_sum, comp_turn, user_sum):
         if(user_runs<0 or user_runs > 6):
             print("Please ball from 0 to 6 only!")
             continue
-        
-        elif(comp_sum>user_sum+1):
-            comp_out=1
         
         elif(comp_runs==user_runs):
             print("You Bowled Jarwis 🎉 ")
@@ -125,7 +125,7 @@ def winner(comp_sum, user_sum):
         print(f"{name} you lost the game! 🤣 Better luck next time 😌")
         
     else:
-        print(f"{name} You won the match! cheers 🍻")
+        print(f"Hurrayy! {name} You won the match! cheers 🍻🔥")
 
 # Fuction to check the bat and ball
 def play_check():
@@ -158,11 +158,11 @@ def play_check():
         user_turn=0
         comp_turn=0
         
-        comp_sum=comp_play_first(comp_out, comp_sum, comp_turn, user_sum)
+        comp_sum=comp_play_first(comp_out, comp_sum, comp_turn)
         
         print(f"Now it's your turn to Bat {name}!")
         
-        user_sum=user_play_second(user_out, user_sum, user_turn)
+        user_sum=user_play_second(user_out, user_sum, user_turn, comp_sum)
         
         winner(comp_sum, user_sum)
         
@@ -179,7 +179,7 @@ def toss_check():
         print(f"Jarwis chosse {comp_choice}")
         total_choice=user_choice+comp_choice
         if(total_choice%2==0 and toss=='E'):
-            print(f"Hurray {name}! You won the toss 🎉 and {comp_name} lost the toss")
+            print(f"{name}! You won the toss 🎉 and {comp_name} lost the toss")
             play_check()     
             
         elif(total_choice%2!=0 and toss=='O'):
