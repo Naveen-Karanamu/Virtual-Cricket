@@ -126,12 +126,11 @@ def winner(comp_sum, user_sum):
         
     else:
         print(f"Hurrayy! {name} You won the match! cheers 🍻🔥")
-
-# Fuction to check the bat and ball
-def play_check():
-    play=input("Please Enter BAT for Batting 1st or BALL for Bowling 1st : ").upper()
+        
+        
+#Batting or Bowling
+def play_order(play):
     if(play=="BAT"):
-        print(f"Go {name} break the bats 😉")
         print("Remember to Enter the runs from 0 to 6")
         user_out=0
         comp_out=0
@@ -149,7 +148,6 @@ def play_check():
         winner(comp_sum, user_sum)
 
     elif(play=='BALL'):
-        print(f"Go {name}, throw the Balls")
         print("Remember to Enter the runs from 0 to 6")
         user_out=0
         comp_out=0
@@ -170,6 +168,19 @@ def play_check():
         print("Invalid input for playing! ⚠️ Please try again!")
         play_check()
 
+# Fuction to check the bat and ball
+def play_check(user_chnace,comp_chance):
+    if(user_chnace==1):
+        play=input("Please Enter BAT for Batting 1st or BALL for Bowling 1st : ").upper()
+        print(f"{name} choose to {play}")
+        play_order(play)
+        
+    else:
+        play=random.choice(["BAT","BALL"])
+        print(f"Jarwis choose to {play}")
+        play_order(play)
+        
+
 # Function to chech the toss
 def toss_check():
     toss=input("Select 'E' for Even & 'O' for Odd : ").upper()
@@ -180,14 +191,15 @@ def toss_check():
         total_choice=user_choice+comp_choice
         if(total_choice%2==0 and toss=='E'):
             print(f"{name}! You won the toss 🎉 and {comp_name} lost the toss")
-            play_check()     
+            play_check(user_chnace=1,comp_chance=0)     
             
         elif(total_choice%2!=0 and toss=='O'):
             print(f"Hurray {name}! You won the toss 🎉 and {comp_name} lost the toss")
-            play_check()                   
+            play_check(user_chnace=1,comp_chance=0)                   
                     
         else:
             print(f"Sorry {name}! You lost the toss 🙄 and {comp_name} won the toss")
+            play_check(user_chnace=0,comp_chance=1) 
             
     else:
         print("Invalid input for Toss! ⚠️ Please try again")
